@@ -98,17 +98,6 @@ def launch_cmds(pile_a, pile_b, cmd):
 	return pile_a, pile_b
 
 
-def change_speed(SPEED_FACTOR):
-	key = pygame.key.get_pressed()
-	if key[pygame.K_LEFT]:
-		print("LEFT IS PRESSED")
-		return SPEED_FACTOR + 1
-	if key[pygame.K_RIGHT]:
-		print("RIGHT IS PRESSED")
-		return SPEED_FACTOR - 1
-	return SPEED_FACTOR
-
-
 def main(SPEED_FACTOR):
 	dirname = os.path.dirname(os.path.abspath(__file__))
 	PUSHS_PATH = os.path.join(dirname, RELATIVE_PATH)
