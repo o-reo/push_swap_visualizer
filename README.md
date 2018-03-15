@@ -8,7 +8,7 @@ You can install it with Brew.\
 `Brew install python3`
 
 You may launch the script with : \
-`python3 pyvis.py \`ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\` \
+`python3 pyvis.py `\ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\` \
 or any other list of numbers.
 
 You can change the PUSHS_PATH to get to the relative path of your push_swap
