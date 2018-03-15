@@ -14,4 +14,6 @@ or any other list of numbers.
 You can change the PUSHS_PATH to get to the relative path of your push_swap
 You can pause, decrease or increase the speed, or reset at will.
 
+![alt text]("https://preview.ibb.co/cqQ3Xx/Screen_Shot_2018_03_15_at_18_23_26.png "Screenshot")
+
 There are certainly many bugs, but it is 100% functional.
