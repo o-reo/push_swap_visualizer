@@ -16,6 +16,7 @@ import sys
 import time
 import subprocess
 import os
+from math import sqrt
 
 '''
 This python script was created to visualize your work with the PUSH_SWAP
@@ -48,12 +49,14 @@ class PsGui:
 		self.pile_b = []
 		cp = subprocess.run([PUSHS_PATH] + sys.argv[1:], stdout=subprocess.PIPE)
 		self.cmds = cp.stdout.splitlines()
-		self.prespeed = len(self.cmds) * 100
+		self.prespeed = 1 / len(self.pile_a)
 		self.master = master
 		master.title("Push_swap viewer")
-		self.can = Canvas(root, width=ww, height=wh, bg="black")
+		self.mainframe = Frame(master)
+		self.mainframe.pack(fill=BOTH)
+		self.can = Canvas(self.mainframe, width=ww, height=wh, bg="black")
 		self.can.pack(side=LEFT)
-		self.toolframe = Frame(master)
+		self.toolframe = Frame(self.mainframe)
 		self.toolframe.pack(side=RIGHT, fill=BOTH)
 		self.butframe = Frame(self.toolframe)
 		self.butframe.pack(side=TOP, fill=Y)
@@ -65,10 +68,21 @@ class PsGui:
 		self.NextCtl.pack(side=LEFT)
 		self.ResetCtl = Button(self.butframe, text="R", command=self.reset)
 		self.ResetCtl.pack(side=LEFT)
-		self.listbox = Listbox(self.toolframe, bg='black', fg='light cyan')
+		self.listbox = Listbox(self.toolframe, bg='black', fg='light cyan',
+							   font = ("monospace", 12), relief = FLAT)
 		self.listbox.pack(fill=BOTH, expand=1)
 		for cmd in self.cmds:
 			self.listbox.insert(END, cmd)
+		self.statusframe = Frame(master)
+		self.statusframe.pack(side=BOTTOM, fill=X)
+		self.speedmeter = Label(self.statusframe,
+								text='frame rate = ' + str(self.speed),
+								font = ("monospace", 10))
+		self.speedmeter.pack(side=LEFT)
+		self.totalcount = Label(self.statusframe,
+								text='- operations = ' + str(len(self.cmds)),
+								font = ("monospace", 10))
+		self.totalcount.pack(side=LEFT)
 		self.draw_rectangles()
 		self.launch()
 
@@ -88,20 +102,26 @@ class PsGui:
 		if self.speed != 0:
 			self.prespeed = self.speed
 			self.speed = 0
+			self.speedmeter.config(text='frame rate = 0')
 			self.PauseCtl.config(text='>')
 		else:
 			self.speed = self.prespeed
+			self.speedmeter.config(text='frame rate = ' \
+										+ '{:.2e}'.format(self.speed))
 			self.PauseCtl.config(text='||')
 
 	def speed_up(self):
 		if self.speed == 0:
 			self.PauseCtl.config(text='||')
 			self.speed = self.prespeed
-		self.speed *= 10
+		self.speed = self.speed ** 2
+		self.speedmeter.config(text='frame rate = ' \
+									+ '{:.2e}'.format(self.speed))
 
 	def speed_down(self):
-		if self.speed > 10:
-			self.speed /= 10
+		self.speed = sqrt(self.speed)
+		self.speedmeter.config(text='frame rate = ' \
+									+ '{:.2e}'.format(self.speed))
 
 	def launch_cmds(self, cmd):
 		if cmd == b'sa' and len(self.pile_a) >= 2:
@@ -175,7 +195,7 @@ class PsGui:
 					self.pile_a, self.pile_b = \
 						self.launch_cmds(self.cmds[self.i])
 					self.draw_rectangles()
-					time.sleep(0.25 / self.speed)
+					time.sleep(2 * self.speed)
 					self.can.update()
 					self.listbox.yview_scroll(1, 'units')
 					self.i += 1
