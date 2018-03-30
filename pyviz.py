@@ -132,31 +132,37 @@ class PsGui:
 			self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
 		if cmd == b'sb' and len(self.pile_b) >= 2:
 			self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
-		if cmd == b'ss' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
-			self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
+		if cmd == b'ss':
+			if (len(self.pile_a) >= 2):
+				self.pile_a[0], self.pile_a[1] = self.pile_a[1], self.pile_a[0]
+			if (len(self.pile_b) >= 2):
+				self.pile_b[0], self.pile_b[1] = self.pile_b[1], self.pile_b[0]
 		if cmd == b'ra' and len(self.pile_a) >= 2:
 			self.pile_a.append(self.pile_a[0])
 			del self.pile_a[0]
 		if cmd == b'rb' and len(self.pile_b) >= 2:
 			self.pile_b.append(self.pile_b[0])
 			del self.pile_b[0]
-		if cmd == b'rr' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a.append(self.pile_a[0])
-			del self.pile_a[0]
-			self.pile_b.append(self.pile_b[0])
-			del self.pile_b[0]
+		if cmd == b'rr':
+			if (len(self.pile_a) >= 2):
+				self.pile_a.append(self.pile_a[0])
+				del self.pile_a[0]
+			if (len(self.pile_b) >= 2):
+				self.pile_b.append(self.pile_b[0])
+				del self.pile_b[0]
 		if cmd == b'rra' and len(self.pile_a) >= 2:
 			self.pile_a = [self.pile_a[-1]] + self.pile_a
 			del self.pile_a[-1]
 		if cmd == b'rrb' and len(self.pile_b) >= 2:
 			self.pile_b = [self.pile_b[-1]] + self.pile_b
 			del self.pile_b[-1]
-		if cmd == b'rrr' and len(self.pile_a) >= 2 and len(self.pile_b) >= 2:
-			self.pile_a = [self.pile_a[-1]] + self.pile_a
-			del self.pile_a[-1]
-			self.pile_b = [self.pile_b[-1]] + self.pile_b
-			del self.pile_b[-1]
+		if cmd == b'rrr':
+			if (len(self.pile_a) >= 2):
+				self.pile_a = [self.pile_a[-1]] + self.pile_a
+				del self.pile_a[-1]
+			if (len(self.pile_b) >= 2):
+				self.pile_b = [self.pile_b[-1]] + self.pile_b
+				del self.pile_b[-1]
 		if cmd == b'pa' and len(self.pile_b) >= 1:
 			self.pile_a = [self.pile_b[0]] + self.pile_a
 			del self.pile_b[0]
