@@ -31,7 +31,7 @@ Of course you need Python3 with the builtin Tkinter.
 You can install it with Brew.
 --> Brew install python3
 Execute the script with :
---> python3 pyvis.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"`
+--> python3 pyviz.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"`
 You can change the PUSHS_PATH to get to the relative path of your push_swap
 You can decrease or increase the speed with the matching buttons.
 '''
@@ -51,8 +51,7 @@ class PsGui:
 		self.pile_a = [int(num) for num in sys.argv[1:]]
 		self.first_pile = self.pile_a[:]
 		self.pile_b = []
-		cp = subprocess.run([PUSHS_PATH] + sys.argv[1:], stdout=subprocess.PIPE)
-		self.cmds = cp.stdout.splitlines()
+		self.cmds = subprocess.check_output([PUSHS_PATH] + sys.argv[1:], stderr=subprocess.STDOUT, timeout=8).splitlines()
 		self.prespeed = 1 / len(self.pile_a)
 		self.master = master
 		master.title("Push_swap viewer")
