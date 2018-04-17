@@ -8,6 +8,7 @@ import subprocess
 import os
 from math import sqrt
 
+
 """
 __project__ = "push_swap visualizer"
 __author__ = "Emmanuel Ruaud"
@@ -23,6 +24,7 @@ Execute the script with :
 You can change the PUSHS_PATH to get to the relative path of your push_swap
 You can decrease or increase the speed with the matching buttons.
 """
+
 
 RELATIVE_PATH = r'push_swap'
 
