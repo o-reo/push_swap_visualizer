@@ -6,7 +6,6 @@ You must put this script in the same path of your program\
 You need python3.
 You can install it with Brew.\
 `Brew install python3` \
-If python is not your cup of tea you can directly use the executable pyviz
 
 You may launch the script with : \
 python3 pyviz.py \`ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\` \
