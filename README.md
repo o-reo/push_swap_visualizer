@@ -5,7 +5,7 @@ This python script was created to visualize your work with the PUSH_SWAP
 You must put this script in the same path of your program\
 You need python3.
 You can install it with Brew.\
-`Brew install python3` \
+`Brew install python3`
 
 You may launch the script with : \
 python3 pyviz.py \`ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\` \
