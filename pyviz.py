@@ -42,7 +42,10 @@ class PsGui:
         self.pile_b = []
         self.cmds = subprocess.check_output([PUSHS_PATH] + sys.argv[1:], stderr=subprocess.STDOUT,
                                             timeout=12).splitlines()
-        self.prespeed = 1 / len(self.pile_a)
+        if len(self.pile_a) != 0:
+            self.prespeed = 1 / len(self.pile_a)
+        else:
+            self.prespeed = 0
         self.master = master
         master.title("Push_swap viewer")
         self.mainframe = Frame(master)
@@ -173,8 +176,10 @@ class PsGui:
         wh = 600
         hw = ww / 2
         hm = len(self.pile_a) + len(self.pile_b)
-        mx = max(self.pile_a + self.pile_b)
-        mn = min(self.pile_a + self.pile_b)
+        mx, mn = (0, 0)
+        if (hm != 0):
+            mx = max(self.pile_a + self.pile_b)
+            mn = min(self.pile_a + self.pile_b)
         rects = []
         if len(self.pile_a) > 0:
             a_val = [(num - mn) / (mx - mn) for num in self.pile_a]
