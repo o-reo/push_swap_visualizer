@@ -7,6 +7,34 @@ import time
 import subprocess
 import os
 from math import sqrt
+import json
+
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+RELATIVE_PATH = r'push_swap'
+
+
+@app.route('/pushswap')
+def pushswap():
+    dirname = os.path.dirname(os.path.abspath(__file__))
+    PUSHS_PATH = os.path.join(dirname, RELATIVE_PATH)
+    numbers = request.args.get('numbers')
+    numbers = numbers.split(' ')
+    if (not numbers or len(numbers) == 0):
+        return 'Please supply numbers request arguments'
+    args = [PUSHS_PATH, ' '.join(numbers)]
+    cmds = subprocess.check_output(args, stderr=subprocess.STDOUT,
+                                        timeout=12).splitlines()
+    cmds = [cmd.decode("utf8") for cmd in cmds]
+    return json.dumps(cmds)
 
 
 """
@@ -24,9 +52,6 @@ Execute the script with :
 You can change the PUSHS_PATH to get to the relative path of your push_swap
 You can decrease or increase the speed with the matching buttons.
 """
-
-
-RELATIVE_PATH = r'push_swap'
 
 
 class PsGui:
@@ -56,7 +81,8 @@ class PsGui:
         self.toolframe.pack(side=RIGHT, fill=BOTH)
         self.butframe = Frame(self.toolframe)
         self.butframe.pack(side=TOP, fill=Y)
-        self.PrevCtl = Button(self.butframe, text="<<", command=self.speed_down)
+        self.PrevCtl = Button(self.butframe, text="<<",
+                              command=self.speed_down)
         self.PrevCtl.pack(side=LEFT)
         self.PauseCtl = Button(self.butframe, text=">", command=self.pause)
         self.PauseCtl.pack(side=LEFT)
@@ -102,7 +128,7 @@ class PsGui:
             self.PauseCtl.config(text='>')
         else:
             self.speed = self.prespeed
-            self.speedmeter.config(text='frame rate = ' \
+            self.speedmeter.config(text='frame rate = '
                                         + '{:.2e}'.format(self.speed))
             self.PauseCtl.config(text='||')
 
@@ -111,12 +137,12 @@ class PsGui:
             self.PauseCtl.config(text='||')
             self.speed = self.prespeed
         self.speed = self.speed ** 2
-        self.speedmeter.config(text='frame rate = ' \
+        self.speedmeter.config(text='frame rate = '
                                     + '{:.2e}'.format(self.speed))
 
     def speed_down(self):
         self.speed = sqrt(self.speed)
-        self.speedmeter.config(text='frame rate = ' \
+        self.speedmeter.config(text='frame rate = '
                                     + '{:.2e}'.format(self.speed))
 
     def launch_cmds(self, cmd):
@@ -185,7 +211,8 @@ class PsGui:
             a_val = [(num - mn) / (mx - mn) for num in self.pile_a]
             for vala in a_val:
                 rects.append(self.can.create_rectangle(0, vi,
-                                                       10 + vala * (hw - 100), vi + wh / hm,
+                                                       10 + vala *
+                                                       (hw - 100), vi + wh / hm,
                                                        fill=self.set_color(vala), outline=""))
                 vi += wh / hm
         vi = 0
@@ -193,7 +220,8 @@ class PsGui:
             b_val = [(num - mn) / (mx - mn) for num in self.pile_b]
             for valb in b_val:
                 rects.append(self.can.create_rectangle(hw, vi,
-                                                       hw + 10 + valb * (hw - 100), vi + wh / hm,
+                                                       hw + 10 + valb *
+                                                       (hw - 100), vi + wh / hm,
                                                        fill=self.set_color(valb), outline=""))
                 vi += wh / hm
 
@@ -217,7 +245,7 @@ class PsGui:
         self.PauseCtl.config(text='>')
 
 
-root = Tk()
-root.resizable(width=False, height=False)
-gui = PsGui(root)
-root.mainloop()
+# root = Tk()
+# root.resizable(width=False, height=False)
+# gui = PsGui(root)
+# root.mainloop()

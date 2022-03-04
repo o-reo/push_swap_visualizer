@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Push Swap Visualizer</title>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+        <form action="javascript:void(0);">
+            <input class="generateInput" name="generateMin" type="number" value="0" />
+            <input class="generateInput" name="generateMax" type="number" value="0"/>
+            <button type="button" id="generate">Generate numbers</button>
+        </form>
+        <textarea id="numbers"></textarea>
+        <button type="button" id="visualize">Visualize</button>
+        <canvas id="visualizer"></canvas>
+    </div>
+</body>
+<script src="{{ url_for('static', filename='js/draw.js') }}"></script>
+
+</html>
