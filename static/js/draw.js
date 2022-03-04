@@ -22,5 +22,7 @@ document.querySelector('#visualize').addEventListener('click', () => {
     const numbers = document.querySelector('#numbers').value
     const params = [['numbers', numbers]]
     const url = `/pushswap?${new URLSearchParams(params).toString()}`;
-    fetch(url).then((res) => res.json()).then(cmds => console.log(cmds))
+    fetch(url).then((res) => res.json()).then(cmds => {
+        document.querySelector(".sidebar pre").innerHTML = cmds.join('\r\n')
+    })
 })
