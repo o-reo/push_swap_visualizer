@@ -13,7 +13,7 @@ Brew install python3
 You may launch the script with :
 
 ```
-python3 pyviz.py \`ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\`
+python3 pyviz.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"`
 ```
 
 or any other list of numbers.
