@@ -8,7 +8,7 @@ const shuffleArray = array => {
     return array
 }
 
-document.querySelector('#generate').addEventListener('click', () => {
+document.querySelector('#shuffle').addEventListener('click', () => {
     const inputFields = document.querySelectorAll('input.generateInput')
     const values = {}
     for (field of inputFields) {
@@ -18,11 +18,20 @@ document.querySelector('#generate').addEventListener('click', () => {
     document.querySelector('#numbers').value = numbers.join(' ')
 })
 
+class Box {
+    constructor()
+}
+
 document.querySelector('#visualize').addEventListener('click', () => {
     const numbers = document.querySelector('#numbers').value
     const params = [['numbers', numbers]]
     const url = `/pushswap?${new URLSearchParams(params).toString()}`;
+    const sidebar = document.querySelector(".sidebar");
     fetch(url).then((res) => res.json()).then(cmds => {
-        document.querySelector(".sidebar pre").innerHTML = cmds.join('\r\n')
+        cmds.forEach((cmd) => {
+            const element = document.createElement('div');
+            element.innerHTML = cmd;
+            sidebar.appendChild(element);
+        });
     })
 })

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
 import sys
 import time
 import subprocess
@@ -12,7 +11,7 @@ import json
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 @app.route('/')
 def index():
@@ -53,7 +52,7 @@ You can change the PUSHS_PATH to get to the relative path of your push_swap
 You can decrease or increase the speed with the matching buttons.
 """
 
-
+"""
 class PsGui:
     def __init__(self, master):
         ww = 600
@@ -249,3 +248,4 @@ class PsGui:
 # root.resizable(width=False, height=False)
 # gui = PsGui(root)
 # root.mainloop()
+"""
