@@ -17,7 +17,7 @@ class Queues {
         RRB,
         RRR
     };
-    std::map<const char *, COMMAND> commandMap;
+    std::map<const std::string, COMMAND> commandMap;
 
 public:
     Queues();
@@ -26,12 +26,12 @@ public:
     void step();
     void start(std::list<int> start);
 
-    std::list<const char *> commands;
+    std::list<std::string> commands;
     std::list<int> queueA;
     std::list<int> queueB;
 
 private:
-  void executeCommand(const char *cmd);
+  void executeCommand(const std::string &cmd);
   void normalize();
   void sa();
   void sb();

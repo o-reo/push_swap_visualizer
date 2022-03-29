@@ -15,7 +15,7 @@ void Queues::step() {
     return;
   }
   this->executeCommand(this->commands.front());
-  this->commands.erase(this->commands.begin());
+  this->commands.pop_front();
 }
 
 void Queues::start(std::list<int> start) {
@@ -23,7 +23,7 @@ void Queues::start(std::list<int> start) {
   this->queueB.clear();
 }
 
-void Queues::executeCommand(const char *cmd) {
+void Queues::executeCommand(const std::string &cmd) {
   COMMAND command{COMMAND::NONE};
   try {
     command = this->commandMap[cmd];
@@ -88,65 +88,65 @@ void Queues::ss() {
 }
 
 void Queues::pa() {
-    if (this->queueB.empty()) {
-        return;
-    }
-    int firstElement = *this->queueA.begin();
-    this->queueB.pop_front();
-    this->queueA.push_front(firstElement);
+  if (this->queueB.empty()) {
+    return;
+  }
+  int firstElement = *this->queueA.begin();
+  this->queueB.pop_front();
+  this->queueA.push_front(firstElement);
 }
 
 void Queues::pb() {
-    if (this->queueA.empty()) {
-        return;
-    }
-    int firstElement = *this->queueB.begin();
-    this->queueA.pop_front();
-    this->queueB.push_front(firstElement);
+  if (this->queueA.empty()) {
+    return;
+  }
+  int firstElement = *this->queueB.begin();
+  this->queueA.pop_front();
+  this->queueB.push_front(firstElement);
 }
 
 void Queues::ra() {
-    if (this->queueA.size() < 2) {
-        return;
-    }
-    int firstElement = *this->queueA.begin();
-    this->queueA.pop_front();
-    this->queueA.push_back(firstElement);
+  if (this->queueA.size() < 2) {
+    return;
+  }
+  int firstElement = this->queueA.front();
+  this->queueA.pop_front();
+  this->queueA.push_back(firstElement);
 }
 
 void Queues::rb() {
-    if (this->queueB.size() < 2) {
-        return;
-    }
-    int firstElement = *this->queueB.begin();
-    this->queueB.pop_front();
-    this->queueB.push_back(firstElement);
+  if (this->queueB.size() < 2) {
+    return;
+  }
+  int firstElement = this->queueB.front();
+  this->queueB.pop_front();
+  this->queueB.push_back(firstElement);
 }
 
 void Queues::rr() {
-    this->ra();
-    this->rb();
+  this->ra();
+  this->rb();
 }
 
 void Queues::rra() {
-    if (this->queueA.size() < 2) {
-        return;
-    }
-    int lastElement = *this->queueA.end();
-    this->queueA.pop_back();
-    this->queueA.push_front(lastElement);
+  if (this->queueA.size() < 2) {
+    return;
+  }
+  int lastElement = this->queueA.back();
+  this->queueA.pop_back();
+  this->queueA.push_front(lastElement);
 }
 
 void Queues::rrb() {
-    if (this->queueB.size() < 2) {
-        return;
-    }
-    int lastElement = *this->queueB.end();
-    this->queueB.pop_back();
-    this->queueB.push_front(lastElement);
+  if (this->queueB.size() < 2) {
+    return;
+  }
+  int lastElement = this->queueB.back();
+  this->queueB.pop_back();
+  this->queueB.push_front(lastElement);
 }
 
 void Queues::rrr() {
-    this->rra();
-    this->rrb();
+  this->rra();
+  this->rrb();
 }
