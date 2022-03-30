@@ -2,6 +2,15 @@
 #include <catch2/catch.hpp>
 #include "queues.h"
 
+TEST_CASE("normalize", "[Queues]") {
+    Queues queues;
+    queues.start({2, 10, 4});
+    auto it = queues.queueA.begin();
+    REQUIRE(*it == 0);
+    REQUIRE(*(++it) == 2);
+    REQUIRE(*(++it) == 1);
+}
+
 TEST_CASE("sa", "[Queues]") {
     Queues queues;
     queues.queueA = {1, 2, 3, 4};

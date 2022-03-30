@@ -4,46 +4,32 @@
 #include <map>
 
 class Queues {
-    enum COMMAND
-    {
-        NONE,
-        SA,
-        SB,
-        SS,
-        PA,
-        PB,
-        RA,
-        RB,
-        RR,
-        RRA,
-        RRB,
-        RRR
-    };
-    std::map<const std::string, COMMAND> commandMap;
+  enum COMMAND { NONE, SA, SB, SS, PA, PB, RA, RB, RR, RRA, RRB, RRR };
+  std::map<const std::string, COMMAND> commandMap;
 
 public:
-    Queues();
-    ~Queues();
+  Queues();
+  ~Queues();
 
-    void step();
-    void start(std::list<int> start);
+  void step();
+  void start(const std::list<int> &start);
 
-    std::list<std::string> commands;
-    std::list<int> queueA;
-    std::list<int> queueB;
+  std::list<std::string> commands;
+  std::list<int> queueA;
+  std::list<int> queueB;
 
 private:
-  void executeCommand(const std::string &cmd);
-  void normalize();
-  void sa();
-  void sb();
-  void ss();
-  void pa();
-  void pb();
-  void ra();
-  void rb();
-  void rr();
-  void rra();
-  void rrb();
-  void rrr();
+  void _executeCommand(const std::string &cmd);
+  std::list<int> _normalize(const std::list<int> &numbers);
+  void _sa();
+  void _sb();
+  void _ss();
+  void _pa();
+  void _pb();
+  void _ra();
+  void _rb();
+  void _rr();
+  void _rra();
+  void _rrb();
+  void _rrr();
 };

@@ -1,5 +1,6 @@
 #include "queues.h"
 #include <algorithm>
+#include <vector>
 
 Queues::Queues()
     : commandMap{
@@ -14,16 +15,28 @@ void Queues::step() {
   if (this->commands.empty()) {
     return;
   }
-  this->executeCommand(this->commands.front());
+  this->_executeCommand(this->commands.front());
   this->commands.pop_front();
 }
 
-void Queues::start(std::list<int> start) {
-  this->queueA = start;
+std::list<int> Queues::_normalize(const std::list<int> &numbers) {
+    std::list<int> normalized{numbers};
+    std::vector<int> ordered(numbers.size());
+    std::copy(numbers.begin(), numbers.end(), ordered.begin());
+    std::sort(ordered.begin(), ordered.end());
+    for (int &number : normalized) {
+        const auto idx = std::find(ordered.begin(), ordered.end(), number);
+        number = idx - ordered.begin();
+    }
+    return normalized;
+}
+
+void Queues::start(const std::list<int> &start) {
+  this->queueA = this->_normalize(start);
   this->queueB.clear();
 }
 
-void Queues::executeCommand(const std::string &cmd) {
+void Queues::_executeCommand(const std::string &cmd) {
   COMMAND command{COMMAND::NONE};
   try {
     command = this->commandMap[cmd];
@@ -31,63 +44,63 @@ void Queues::executeCommand(const std::string &cmd) {
   }
   switch (command) {
   case COMMAND::SA:
-    this->sa();
+    this->_sa();
     break;
   case COMMAND::SB:
-    this->sb();
+    this->_sb();
     break;
   case COMMAND::SS:
-    this->ss();
+    this->_ss();
     break;
   case COMMAND::PA:
-    this->pa();
+    this->_pa();
     break;
   case COMMAND::PB:
-    this->pb();
+    this->_pb();
     break;
   case COMMAND::RA:
-    this->ra();
+    this->_ra();
     break;
   case COMMAND::RB:
-    this->rb();
+    this->_rb();
     break;
   case COMMAND::RR:
-    this->rr();
+    this->_rr();
     break;
   case COMMAND::RRA:
-    this->rra();
+    this->_rra();
     break;
   case COMMAND::RRB:
-    this->rrb();
+    this->_rrb();
     break;
   case COMMAND::RRR:
-    this->rrr();
+    this->_rrr();
     break;
   default:
     break;
   }
 }
 
-void Queues::sa() {
+void Queues::_sa() {
   if (this->queueA.size() < 2) {
     return;
   }
   std::swap(*this->queueA.begin(), *(++this->queueA.begin()));
 }
 
-void Queues::sb() {
+void Queues::_sb() {
   if (this->queueB.size() < 2) {
     return;
   }
   std::swap(*this->queueB.begin(), *(++this->queueB.begin()));
 }
 
-void Queues::ss() {
-  this->sa();
-  this->sb();
+void Queues::_ss() {
+  this->_sa();
+  this->_sb();
 }
 
-void Queues::pa() {
+void Queues::_pa() {
   if (this->queueB.empty()) {
     return;
   }
@@ -96,7 +109,7 @@ void Queues::pa() {
   this->queueA.push_front(firstElement);
 }
 
-void Queues::pb() {
+void Queues::_pb() {
   if (this->queueA.empty()) {
     return;
   }
@@ -105,7 +118,7 @@ void Queues::pb() {
   this->queueB.push_front(firstElement);
 }
 
-void Queues::ra() {
+void Queues::_ra() {
   if (this->queueA.size() < 2) {
     return;
   }
@@ -114,7 +127,7 @@ void Queues::ra() {
   this->queueA.push_back(firstElement);
 }
 
-void Queues::rb() {
+void Queues::_rb() {
   if (this->queueB.size() < 2) {
     return;
   }
@@ -123,12 +136,12 @@ void Queues::rb() {
   this->queueB.push_back(firstElement);
 }
 
-void Queues::rr() {
-  this->ra();
-  this->rb();
+void Queues::_rr() {
+  this->_ra();
+  this->_rb();
 }
 
-void Queues::rra() {
+void Queues::_rra() {
   if (this->queueA.size() < 2) {
     return;
   }
@@ -137,7 +150,7 @@ void Queues::rra() {
   this->queueA.push_front(lastElement);
 }
 
-void Queues::rrb() {
+void Queues::_rrb() {
   if (this->queueB.size() < 2) {
     return;
   }
@@ -146,7 +159,7 @@ void Queues::rrb() {
   this->queueB.push_front(lastElement);
 }
 
-void Queues::rrr() {
-  this->rra();
-  this->rrb();
+void Queues::_rrr() {
+  this->_rra();
+  this->_rrb();
 }
