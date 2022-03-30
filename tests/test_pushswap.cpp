@@ -3,7 +3,8 @@
 
 TEST_CASE("run", "[PushSwap]") {
     PushSwap ps;
+    ps.path = "../push_swap";
     ps.run("2 1 3");
     REQUIRE_FALSE(ps.commands.empty());
-    REQUIRE(ps.commands[0] == "sa");
+    REQUIRE(ps.commands.front() == "sa");
 }

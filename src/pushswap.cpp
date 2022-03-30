@@ -10,10 +10,10 @@
 PushSwap::PushSwap() : path{"./push_swap"}{};
 PushSwap::~PushSwap(){};
 
-std::vector<std::string> PushSwap::_split(const std::string &s, const char delimitor) {
+std::list<std::string> PushSwap::_split(const std::string &s, const char delimitor) {
   std::stringstream ss(s);
   std::string item;
-  std::vector<std::string> elems;
+  std::list<std::string> elems;
   while (std::getline(ss, item, delimitor)) {
     elems.push_back(item);
   }

@@ -1,9 +1,9 @@
 #include <string>
-#include <vector>
+#include <list>
 
 class PushSwap {
 private:
-    std::vector<std::string> _split(const std::string &input, const char delimitor);
+    std::list<std::string> _split(const std::string &input, const char delimitor);
 
 public:
     PushSwap();
@@ -11,5 +11,5 @@ public:
     void run(const std::string &numbers);
 
     std::string path;
-    std::vector<std::string> commands;
+    std::list<std::string> commands;
 };
