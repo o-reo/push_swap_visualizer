@@ -91,7 +91,7 @@ void Queues::pa() {
   if (this->queueB.empty()) {
     return;
   }
-  int firstElement = *this->queueA.begin();
+  int firstElement = this->queueB.front();
   this->queueB.pop_front();
   this->queueA.push_front(firstElement);
 }
@@ -100,7 +100,7 @@ void Queues::pb() {
   if (this->queueA.empty()) {
     return;
   }
-  int firstElement = *this->queueB.begin();
+  int firstElement = this->queueA.front();
   this->queueA.pop_front();
   this->queueB.push_front(firstElement);
 }
