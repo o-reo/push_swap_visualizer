@@ -1,12 +1,17 @@
+#pragma once
+
 #include "queues.h"
+#include "pushswap.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
 class Gui {
 private:
     Queues queues;
+    PushSwap pushswap;
+
     int generateNumberSize;
-    char valueString[1024*16];
+    std::string numbers;
 
     void _updateControls();
     std::list<int> _generateValues(const int size);

@@ -1,12 +1,17 @@
 #include "gui.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+#include <random>
 
 #include <imgui-SFML.h>
 #include <imgui.h>
-#include <random>
+#include <misc/cpp/imgui_stdlib.h>
 
 std::list<int> Gui::_generateValues(const int size) {
+  if (size <= 0) {
+    return {};
+  }
+
   std::vector<int> values;
   for (unsigned int v = 1; v <= size; ++v) {
     values.push_back(v);
@@ -40,26 +45,29 @@ void Gui::_updateControls() {
   ImGui::InputInt("Count", &this->generateNumberSize);
 
   if (ImGui::Button("Shuffle")) {
-      std::list<int> valueInts = this->_generateValues(this->generateNumberSize);
-      std::string values;
-      for (const int value : valueInts) {
-          values += std::to_string(value) + ' ';
-      }
+    std::list<int> valueInts = this->_generateValues(this->generateNumberSize);
+    std::string values;
+    for (const int value : valueInts) {
+      values += std::to_string(value) + ' ';
+    }
+    this->numbers = values;
   }
 
   ImGui::Text("Space separated values");
-  ImGui::InputTextMultiline("Values", this->valueString,
-                            IM_ARRAYSIZE(this->valueString),
-                            ImVec2(-FLT_MIN, ImGui::GetTextLineHeight() * 16));
+  ImGui::InputTextMultiline("Values", &this->numbers);
 
   ImGui::Text("push_swap file path");
-  char path[256]{"./push_swap"};
-  ImGui::InputText("", path, IM_ARRAYSIZE(path));
-  ImGui::Button("Compute");
+  ImGui::InputText("", &this->pushswap.path);
+  if (ImGui::Button("Compute")) {
+      this->pushswap.run(this->numbers);
+  }
+
   ImGui::End();
 
   ImGui::Begin("Commands");
-  ImGui::Text("pa");
+  for (const auto &cmd : this->pushswap.commands) {
+    ImGui::Text(cmd.c_str());
+  }
   ImGui::End();
 }
 
