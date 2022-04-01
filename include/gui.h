@@ -21,6 +21,8 @@ private:
   bool running;
 
   void _updateControls();
+  void _drawBars();
+  void _animateQueue(sf::Clock &clock);
   std::list<int> _generateValues(const unsigned int size);
   void _updateBars();
   sf::Color _rgb(const double ratio);

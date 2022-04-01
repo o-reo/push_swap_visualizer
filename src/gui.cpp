@@ -11,7 +11,6 @@ Gui::Gui()
     : generateNumberSize{0}, speed{1}, running{false},
       _window{sf::VideoMode::getDesktopMode(), "Push Swap Visualizer"} {
   _window.setFramerateLimit(60);
-  ImGui::SFML::Init(_window);
 }
 Gui::~Gui() {}
 
@@ -39,24 +38,20 @@ void Gui::_updateBars() {
   const float barWidth = static_cast<float>(windowSize.y) / queuesSize;
   const float barUnit = static_cast<float>(windowSize.x) / (2 * queuesSize - 2);
 
-  int index{0};
-  for (const int valA : this->queues.queueA) {
-    this->barsA.push_back(
-        sf::RectangleShape(sf::Vector2f((1 + valA) * barUnit, barWidth)));
-    this->barsA.back().setPosition(0, index * barWidth);
-    this->barsA.back().setFillColor(
-        this->_rgb(static_cast<float>(valA) / queuesSize));
-    index++;
-  }
-  index = 0;
-  for (const int valB : this->queues.queueB) {
-    this->barsB.push_back(
-        sf::RectangleShape(sf::Vector2f((1 + valB) * barUnit, barWidth)));
-    this->barsB.back().setPosition(windowSize.x / 2, index * barWidth);
-    this->barsB.back().setFillColor(
-        this->_rgb(static_cast<float>(valB) / queuesSize));
-    index++;
-  }
+  const auto updateBar = [=](std::list<int> queue,
+                             std::vector<sf::RectangleShape> &bar, int deltaX = 0) {
+    int index{0};
+    for (const int val : queue) {
+      bar.push_back(
+          sf::RectangleShape(sf::Vector2f((1 + val) * barUnit, barWidth)));
+      bar.back().setPosition(deltaX, index * barWidth);
+      bar.back().setFillColor(this->_rgb(static_cast<float>(val) / queuesSize));
+      index++;
+    }
+  };
+
+  updateBar(this->queues.queueA, this->barsA);
+  updateBar(this->queues.queueB, this->barsB, windowSize.x / 2);
 }
 
 void Gui::_updateControls() {
@@ -127,7 +122,30 @@ void Gui::_updateControls() {
   ImGui::End();
 }
 
+void Gui::_drawBars() {
+  for (const auto &shape : this->barsA) {
+    this->_window.draw(shape);
+  }
+  for (const auto &shape : this->barsB) {
+    this->_window.draw(shape);
+  }
+}
+
+void Gui::_animateQueue(sf::Clock &clock) {
+  float delta = clock.getElapsedTime().asSeconds();
+  if (delta >= (1.0 / this->speed)) {
+    clock.restart();
+  }
+  if (this->running) {
+    int steps = static_cast<int>(delta * this->speed);
+    for (int i = 0; i < steps; ++i) {
+      this->queues.step();
+    }
+  }
+}
+
 void Gui::loop() {
+  ImGui::SFML::Init(_window);
   sf::Clock deltaClock;
   sf::Clock stepClock;
   while (_window.isOpen()) {
@@ -139,32 +157,16 @@ void Gui::loop() {
         _window.close();
       }
     }
-
     this->_updateBars();
-
-    ImGui::SFML::Update(_window, deltaClock.restart());
+    ImGui::SFML::Update(this->_window, deltaClock.restart());
 
     this->_updateControls();
 
-    float delta = stepClock.getElapsedTime().asSeconds();
-    if (delta >= (1.0 / this->speed)) {
-      stepClock.restart();
-    }
-    if (this->running) {
-      int steps = static_cast<int>(delta * this->speed);
-      for (int i = 0; i < steps; ++i) {
-        this->queues.step();
-      }
-    }
+    this->_animateQueue(stepClock);
 
     _window.clear();
 
-    for (const auto &shape : this->barsA) {
-      _window.draw(shape);
-    }
-    for (const auto &shape : this->barsB) {
-      _window.draw(shape);
-    }
+    this->_drawBars();
 
     ImGui::SFML::Render(_window);
     _window.display();
