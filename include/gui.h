@@ -2,6 +2,9 @@
 
 #include "queues.h"
 #include "pushswap.h"
+#include <vector>
+#include <string>
+#include <list>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -10,12 +13,18 @@ private:
     Queues queues;
     PushSwap pushswap;
 
+    std::vector<sf::RectangleShape> barsA;
+    std::vector<sf::RectangleShape> barsB;
     int generateNumberSize;
     std::string numbers;
+    int speed;
+    bool running;
 
+    std::list<int> _split(const std::string &, char);
     void _updateControls();
     std::list<int> _generateValues(const int size);
-    std::vector<sf::RectangleShape> _updateBars();
+    void _updateBars();
+    sf::Color _rgb(const double ratio);
 
 public:
     sf::RenderWindow _window;

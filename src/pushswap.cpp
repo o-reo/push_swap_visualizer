@@ -22,6 +22,7 @@ std::list<std::string> PushSwap::_split(const std::string &s,
 }
 
 void PushSwap::run(const std::string &numbers) {
+  this->commands.clear();
   std::array<char, 128> buffer;
   std::string result;
   std::string command = this->path + " " + numbers;
@@ -35,4 +36,4 @@ void PushSwap::run(const std::string &numbers) {
     result += buffer.data();
   }
   this->commands = this->_split(result, '\n');
-};
+}
