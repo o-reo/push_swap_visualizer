@@ -1,18 +1,21 @@
-// Copyright 2022  Emmanuel Ruaud
 #include "gui.h"
+#include "utils.h"
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include <random>
-#include <sstream>
 
-std::list<int> Gui::_generateValues(const int size) {
-  if (size <= 0) {
-    return {};
-  }
+Gui::Gui()
+    : generateNumberSize{0}, speed{1}, running{false},
+      _window{sf::VideoMode::getDesktopMode(), "Push Swap Visualizer"} {
+  _window.setFramerateLimit(60);
+  ImGui::SFML::Init(_window);
+}
+Gui::~Gui() {}
 
+std::list<int> Gui::_generateValues(const unsigned int size) {
   std::vector<int> values;
   for (unsigned int v = 1; v <= size; ++v) {
     values.push_back(v);
@@ -25,8 +28,8 @@ std::list<int> Gui::_generateValues(const int size) {
 }
 
 void Gui::_updateBars() {
-  this->barsA = {};
-  this->barsB = {};
+  this->barsA.clear();
+  this->barsB.clear();
   const auto windowSize = this->_window.getSize();
   const uint64_t queuesSize{this->queues.queueA.size() +
                             this->queues.queueB.size()};
@@ -56,23 +59,13 @@ void Gui::_updateBars() {
   }
 }
 
-std::list<int> Gui::_split(const std::string &s, const char delimitor) {
-  std::stringstream ss(s);
-  std::string item;
-  std::list<int> elems;
-  while (std::getline(ss, item, delimitor)) {
-    elems.push_back(std::stoi(item));
-  }
-  return elems;
-}
-
 void Gui::_updateControls() {
   ImGui::Begin("Controls");
   ImGui::SliderInt("Speed", &this->speed, 1, 240, "%i/s");
 
   if (ImGui::Button("Load")) {
     this->running = false;
-    this->queues.start(this->_split(this->numbers, ' '));
+    this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
     this->queues.commands = this->pushswap.commands;
   }
 
@@ -95,9 +88,13 @@ void Gui::_updateControls() {
   ImGui::Begin("Values");
   ImGui::Text("Values to generate");
   ImGui::InputInt("Count", &this->generateNumberSize);
+  if (this->generateNumberSize < 0) {
+    this->generateNumberSize = 0;
+  }
 
   if (ImGui::Button("Shuffle")) {
-    std::list<int> valueInts = this->_generateValues(this->generateNumberSize);
+    unsigned int size = static_cast<unsigned int>(this->generateNumberSize);
+    std::list<int> valueInts = this->_generateValues(size);
     std::string values;
     for (const int value : valueInts) {
       values += std::to_string(value) + ' ';
@@ -130,13 +127,6 @@ void Gui::_updateControls() {
   ImGui::End();
 }
 
-Gui::Gui()
-    : _window{sf::VideoMode::getDesktopMode(), "Push Swap Visualizer"},
-      generateNumberSize{0}, speed{1}, running{false} {
-  _window.setFramerateLimit(60);
-  ImGui::SFML::Init(_window);
-}
-
 void Gui::loop() {
   sf::Clock deltaClock;
   sf::Clock stepClock;
@@ -158,7 +148,7 @@ void Gui::loop() {
 
     float delta = stepClock.getElapsedTime().asSeconds();
     if (delta >= (1.0 / this->speed)) {
-        stepClock.restart();
+      stepClock.restart();
     }
     if (this->running) {
       int steps = static_cast<int>(delta * this->speed);
@@ -181,8 +171,6 @@ void Gui::loop() {
   }
   ImGui::SFML::Shutdown();
 }
-
-Gui::~Gui() {}
 
 sf::Color Gui::_rgb(const double ratio) {
   int normalized = static_cast<int>(ratio * 256 * 4);

@@ -25,8 +25,8 @@ std::list<int> Queues::_normalize(const std::list<int> &numbers) {
     std::copy(numbers.begin(), numbers.end(), ordered.begin());
     std::sort(ordered.begin(), ordered.end());
     for (int &number : normalized) {
-        const auto idx = std::find(ordered.begin(), ordered.end(), number);
-        number = idx - ordered.begin();
+        const auto order = std::find(ordered.begin(), ordered.end(), number);
+        number = order - ordered.begin();
     }
     return normalized;
 }

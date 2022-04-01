@@ -1,4 +1,5 @@
 #include "pushswap.h"
+#include "utils.h"
 #include <array>
 #include <cstdio>
 #include <iostream>
@@ -7,19 +8,8 @@
 #include <stdexcept>
 #include <string>
 
-PushSwap::PushSwap() : path{"./push_swap"} {};
-PushSwap::~PushSwap(){};
-
-std::list<std::string> PushSwap::_split(const std::string &s,
-                                        const char delimitor) {
-  std::stringstream ss(s);
-  std::string item;
-  std::list<std::string> elems;
-  while (std::getline(ss, item, delimitor)) {
-    elems.push_back(item);
-  }
-  return elems;
-}
+PushSwap::PushSwap() : path{"./push_swap"} {}
+PushSwap::~PushSwap() {}
 
 void PushSwap::run(const std::string &numbers) {
   this->commands.clear();
@@ -35,5 +25,5 @@ void PushSwap::run(const std::string &numbers) {
   while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
     result += buffer.data();
   }
-  this->commands = this->_split(result, '\n');
+  this->commands = Utils::SplitStringToString(result, '\n');
 }
