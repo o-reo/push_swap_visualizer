@@ -1,39 +1,32 @@
-# push_swap_visualizer
-This python script was created to visualize your work with the PUSH_SWAP
-42 Project.
+# Push Swap Visualizer
+This project is a visualizer for the **"PUSH_SWAP"** 42 School Project.
 
-You must put this script in the same path of your program\
-You need python3.
-You can install it with Brew.
+**Push Swap** is a program that takes as argument a space separated list of numbers and outputs a list of commands that can be used to sort them.
 
-```
-Brew install python3
-```
+You can read the subject [here](https://github.com/Binary-Hackers/42_Subjects/blob/master/00_Projects/02_Algorithmic/push_swap.pdf).
 
-You may launch the script with :
+## Usage
+- In the **Values** window
+    - Choose the size of the push swap input with the slider [Optional]
+    - **Shuffle** the input [Optional]
+    - The space separated values should be filled automatically, you can also put your own values
+    - Set the Push Swap program path (Absolute or relative path).
+    - **Compute** the sort commands, it will display OK when done.
+- In the **Controls** window
+    - **Load** the commands in the visualizer
+    - **Start** the animation
+    - Adjust the **Speed** as needed
+    - **Pause** and go **Step** by step to see the details of your algorithm.
+    - **Load** to restart the animation
 
-```
-python3 pyviz.py \`ruby -e "puts (-200..200).to_a.shuffle.join(' ')"\`
-```
+## Install
+This project uses C++17, cmake, SFML and ImGui.
+- Install a C++ compiler (gcc, clang,...)
+- Install cmake
+- create a 'build' subfolder
+- cd in the build folder and type :
+    - 'cmake  ..'
+    - 'make .'
+- run the visualizer with ./src/visualizer
 
-or any other list of numbers.
-
-You can change the PUSHS_PATH to get to the relative path of your push_swap
-
-### same path
-
-```
-RELATIVE_PATH = r'push_swap'
-```
-
-### parent folder
-
-```
-RELATIVE_PATH = r'../push_swap'
-```
-
-You can pause, decrease or increase the speed, or reset at will.
-
-![alt text](https://preview.ibb.co/go8HHx/Screen_Shot_2018_03_20_at_18_04_38.png "Screenshot")
-
-There are certainly many bugs, but it is 100% functional.
+![](https://i.imgur.com/zqcsZfY.png)
