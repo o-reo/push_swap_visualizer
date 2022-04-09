@@ -1,6 +1,7 @@
 #include "queues.h"
 #include <algorithm>
 #include <vector>
+#include <string>
 
 Queues::Queues()
     : commandMap{

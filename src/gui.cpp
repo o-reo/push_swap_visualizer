@@ -111,13 +111,13 @@ void Gui::_updateControls() {
     status = "OK";
   }
   ImGui::SameLine();
-  ImGui::Text(status.c_str());
+  ImGui::Text("%s", status.c_str());
 
   ImGui::End();
 
   ImGui::Begin("Commands");
   for (const auto &cmd : this->queues.commands) {
-    ImGui::Text(cmd.c_str());
+    ImGui::Text("%s", cmd.c_str());
   }
   ImGui::End();
 }
