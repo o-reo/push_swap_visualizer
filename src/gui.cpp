@@ -116,9 +116,12 @@ void Gui::_updateControls() {
   ImGui::End();
 
   ImGui::Begin("Commands");
+  ImGui::Text("Count: %zu", this->pushswap.commands.size());
+  ImGui::BeginChild("Scrolling");
   for (const auto &cmd : this->queues.commands) {
     ImGui::Text("%s", cmd.c_str());
   }
+  ImGui::EndChild();
   ImGui::End();
 }
 
