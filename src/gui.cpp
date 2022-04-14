@@ -8,7 +8,7 @@
 #include <random>
 
 Gui::Gui()
-    : generateNumberSize{0}, speed{1}, running{false},
+    : generateNumberSize{0}, speed{1}, running{false}, scale{1.0f},
       _window{sf::VideoMode::getDesktopMode(), "Push Swap Visualizer"} {
   _window.setFramerateLimit(60);
 }
@@ -29,17 +29,18 @@ std::list<int> Gui::_generateValues(const unsigned int size) {
 void Gui::_updateBars() {
   this->barsA.clear();
   this->barsB.clear();
-  const auto windowSize = this->_window.getSize();
+  const sf::Vector2f windowSize = this->_window.getDefaultView().getSize();
   const uint64_t queuesSize{this->queues.queueA.size() +
                             this->queues.queueB.size()};
   if (queuesSize == 0) {
     return;
   }
   const float barWidth = static_cast<float>(windowSize.y) / queuesSize;
-  const float barUnit = static_cast<float>(windowSize.x) / (2 * queuesSize - 2);
+  const float barUnit = static_cast<float>(windowSize.x) / (2 * queuesSize + 2);
 
   const auto updateBar = [=](std::list<int> queue,
-                             std::vector<sf::RectangleShape> &bar, int deltaX = 0) {
+                             std::vector<sf::RectangleShape> &bar,
+                             int deltaX = 0) {
     int index{0};
     for (const int val : queue) {
       bar.push_back(
@@ -78,6 +79,8 @@ void Gui::_updateControls() {
   if (ImGui::Button("Step")) {
     this->queues.step();
   }
+
+  ImGui::SliderFloat("Scale UI", &this->scale, 0.5f, 3.0f, "%.2f");
   ImGui::End();
 
   ImGui::Begin("Values");
@@ -149,6 +152,7 @@ void Gui::_animateQueue(sf::Clock &clock) {
 
 void Gui::loop() {
   ImGui::SFML::Init(_window);
+
   sf::Clock deltaClock;
   sf::Clock stepClock;
   while (_window.isOpen()) {
@@ -160,6 +164,7 @@ void Gui::loop() {
         _window.close();
       }
     }
+    ImGui::GetIO().FontGlobalScale = this->scale;
     this->_updateBars();
     ImGui::SFML::Update(this->_window, deltaClock.restart());
 

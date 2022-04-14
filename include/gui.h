@@ -19,6 +19,7 @@ private:
   std::string numbers;
   int speed;
   bool running;
+  float scale;
 
   void _updateControls();
   void _drawBars();

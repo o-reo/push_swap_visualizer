@@ -2,7 +2,7 @@ include(FetchContent)
 
 FetchContent_Declare(
     sfml
-    URL https://github.com/SFML/SFML/archive/refs/tags/2.5.1.zip
+    URL https://github.com/SFML/SFML/releases/download/2.5.1/SFML-2.5.1-sources.zip
 )
 
 FetchContent_Declare(
