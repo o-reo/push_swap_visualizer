@@ -12,14 +12,17 @@ public:
   ~Queues();
 
   void step();
+  void stepBack();
   void start(const std::list<int> &start);
 
   std::list<std::string> commands;
+  std::list<std::string> executedCommands;
   std::list<int> queueA;
   std::list<int> queueB;
 
 private:
   void _executeCommand(const std::string &cmd);
+  void _executeReverseCommand(const std::string &cmd);
   std::list<int> _normalize(const std::list<int> &numbers);
   void _sa();
   void _sb();

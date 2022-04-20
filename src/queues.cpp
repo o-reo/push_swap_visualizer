@@ -17,7 +17,17 @@ void Queues::step() {
     return;
   }
   this->_executeCommand(this->commands.front());
+  this->executedCommands.push_front(this->commands.front());
   this->commands.pop_front();
+}
+
+void Queues::stepBack() {
+  if (this->executedCommands.empty()) {
+    return;
+  }
+  this->_executeReverseCommand(this->executedCommands.front());
+  this->commands.push_front(this->executedCommands.front());
+  this->executedCommands.pop_front();
 }
 
 std::list<int> Queues::_normalize(const std::list<int> &numbers) {
@@ -76,6 +86,51 @@ void Queues::_executeCommand(const std::string &cmd) {
     break;
   case COMMAND::RRR:
     this->_rrr();
+    break;
+  default:
+    break;
+  }
+}
+
+void Queues::_executeReverseCommand(const std::string &cmd) {
+  COMMAND command{COMMAND::NONE};
+  try {
+    command = this->commandMap[cmd];
+  } catch (...) {
+  }
+  switch (command) {
+  case COMMAND::SA:
+    this->_sa();
+    break;
+  case COMMAND::SB:
+    this->_sb();
+    break;
+  case COMMAND::SS:
+    this->_ss();
+    break;
+  case COMMAND::PA:
+    this->_pb();
+    break;
+  case COMMAND::PB:
+    this->_pa();
+    break;
+  case COMMAND::RA:
+    this->_rra();
+    break;
+  case COMMAND::RB:
+    this->_rrb();
+    break;
+  case COMMAND::RR:
+    this->_rrr();
+    break;
+  case COMMAND::RRA:
+    this->_ra();
+    break;
+  case COMMAND::RRB:
+    this->_rb();
+    break;
+  case COMMAND::RRR:
+    this->_rr();
     break;
   default:
     break;
