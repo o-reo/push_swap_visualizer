@@ -27,6 +27,6 @@ This project uses C++17, cmake, SFML and ImGui.
 - cd in the build folder and type :
     - 'cmake  ..'
     - 'make .'
-- run the visualizer with ./src/visualizer
+- run the visualizer with ./bin/visualizer
 
 ![](https://i.imgur.com/zqcsZfY.png)
