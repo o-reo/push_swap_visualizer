@@ -8,7 +8,7 @@
 #include <random>
 
 Gui::Gui()
-    : generateNumberSize{0}, speed{1}, running{false}, scale{1.0f},
+    : generateNumberSize{0}, speed{1}, state{STATE::Stopped}, scale{1.0f},
       _window{sf::VideoMode::getDesktopMode(), "Push Swap Visualizer"} {
   _window.setFramerateLimit(60);
 }
@@ -60,24 +60,36 @@ void Gui::_updateControls() {
   ImGui::SliderInt("Speed", &this->speed, 1, 240, "%i/s");
 
   if (ImGui::Button("Load")) {
-    this->running = false;
+    this->state = STATE::Stopped;
     this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
     this->queues.commands = this->pushswap.commands;
   }
 
   ImGui::SameLine();
   if (ImGui::Button("Start")) {
-    this->running = true;
+    this->state = STATE::Running;
+  }
+
+  ImGui::SameLine();
+  if (ImGui::Button("Reverse")) {
+    this->state = STATE::Reverse;
   }
 
   ImGui::SameLine();
   if (ImGui::Button("Pause")) {
-    this->running = false;
+    this->state = STATE::Stopped;
   }
 
   ImGui::SameLine();
   if (ImGui::Button("Step")) {
+    this->state = STATE::Stopped;
     this->queues.step();
+  }
+
+  ImGui::SameLine();
+  if (ImGui::Button("Step Back")) {
+    this->state = STATE::Stopped;
+    this->queues.stepBack();
   }
 
   ImGui::SliderFloat("Scale UI", &this->scale, 0.5f, 3.0f, "%.2f");
@@ -142,11 +154,23 @@ void Gui::_animateQueue(sf::Clock &clock) {
   if (delta >= (1.0 / this->speed)) {
     clock.restart();
   }
-  if (this->running) {
+  switch (this->state) {
+  case STATE::Running: {
     int steps = static_cast<int>(delta * this->speed);
     for (int i = 0; i < steps; ++i) {
       this->queues.step();
     }
+    break;
+  }
+  case STATE::Reverse: {
+    int steps = static_cast<int>(delta * this->speed);
+    for (int i = 0; i < steps; ++i) {
+      this->queues.stepBack();
+    }
+    break;
+  }
+  case STATE::Stopped:
+    break;
   }
 }
 

@@ -10,6 +10,7 @@
 
 class Gui {
 private:
+  enum class STATE {Running, Reverse, Stopped};
   Queues queues;
   PushSwap pushswap;
 
@@ -18,7 +19,7 @@ private:
   int generateNumberSize;
   std::string numbers;
   int speed;
-  bool running;
+  STATE state;
   float scale;
 
   void _updateControls();
