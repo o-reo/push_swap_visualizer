@@ -57,15 +57,8 @@ void Gui::_updateBars() {
 
 void Gui::_updateControls() {
   ImGui::Begin("Controls");
-  ImGui::SliderInt("Speed", &this->speed, 1, 240, "%i/s");
+  ImGui::SliderInt("Speed", &this->speed, 1, 500, "%i/s");
 
-  if (ImGui::Button("Load")) {
-    this->state = STATE::Stopped;
-    this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
-    this->queues.commands = this->pushswap.commands;
-  }
-
-  ImGui::SameLine();
   if (ImGui::Button("Start")) {
     this->state = STATE::Running;
   }
@@ -119,6 +112,10 @@ void Gui::_updateControls() {
   ImGui::InputText("", &this->pushswap.path);
   if (ImGui::Button("Compute")) {
     this->pushswap.run(this->numbers);
+    this->state = STATE::Stopped;
+    this->queues.start(Utils::SplitStringToInt(this->numbers, ' '));
+    this->queues.commands = this->pushswap.commands;
+    this->queues.executedCommands.clear();
   }
 
   std::string status{"..."};
