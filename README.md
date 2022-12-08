@@ -23,10 +23,12 @@ You can read the subject [here](https://github.com/Binary-Hackers/42_Subjects/bl
 This project uses C++17, cmake, SFML and ImGui.
 - Install a C++ compiler (gcc, clang,...)
 - Install cmake
-- create a 'build' subfolder
+- Move push_swap_visualizer inside push_swap
+- Inside push_swap_visualizer, mkdir :
+    - 'build'
 - cd in the build folder and type :
     - 'cmake  ..'
-    - 'make .'
+    - 'make'
 - run the visualizer with ./bin/visualizer
 
 ![](https://i.imgur.com/zqcsZfY.png)
