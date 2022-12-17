@@ -2,6 +2,7 @@
 
 #include <list>
 #include <map>
+#include <string>
 
 class Queues {
   enum COMMAND { NONE, SA, SB, SS, PA, PB, RA, RB, RR, RRA, RRB, RRR };
