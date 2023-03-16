@@ -85,6 +85,14 @@ void Gui::_updateControls() {
     this->queues.stepBack();
   }
 
+  ImGui::SameLine();
+  if (ImGui::Button("Rewind")) {
+	  this->state = STATE::Stopped;
+	  while (!this->queues.executedCommands.empty()) {
+		  this->queues.stepBack();
+	  }
+  }
+
   ImGui::SliderFloat("Scale UI", &this->scale, 0.5f, 3.0f, "%.2f");
   ImGui::End();
 
