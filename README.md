@@ -6,6 +6,9 @@ This project is a visualizer for the **"PUSH_SWAP"** 42 School Project.
 You can read the subject [here](https://github.com/Binary-Hackers/42_Subjects/blob/master/00_Projects/02_Algorithmic/push_swap.pdf).
 
 ## Usage
+
+- If you add the program inside your project, you will need to add **../../** before the name of your program to make the visualizer work.
+
 - In the **Values** window
     - Choose the size of the push swap input with the slider [Optional]
     - **Shuffle** the input [Optional]
