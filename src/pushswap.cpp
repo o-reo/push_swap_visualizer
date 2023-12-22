@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <string>
 
-PushSwap::PushSwap() : path{"./push_swap"} {}
+PushSwap::PushSwap() : path{"../../push_swap"} {}
 PushSwap::~PushSwap() {}
 
 void PushSwap::run(const std::string &numbers) {
