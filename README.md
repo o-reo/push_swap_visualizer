@@ -16,8 +16,10 @@ git clone https://github.com/o-reo/push_swap_visualizer.git
 
 This project uses C++17, cmake, SFML and ImGui.
 
-- Install required packages (if not already installed)
-  For Debian-based systems, you can install the necessary packages using the following commands:
+---
+
+## Debian-based package installation :
+- Install required packages (if not already installed) using the following command :
 
 ```bash
 sudo apt-get update
@@ -29,6 +31,27 @@ sudo apt-get install libx11-dev libxrandr-dev
 sudo apt-get install libudev-dev
 sudo apt-get install libfreetype-dev
 ```
+
+## macOS package installation (Intel-chip and Apple Silicon-chip) :
+- Install HomeBrew Package Manager (if not already installed).
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+- Install required packages (if not already installed) using the following command :
+
+```bash
+brew update
+brew install cmake
+brew install gcc
+brew install llvm
+brew install mesa
+brew install libx11
+brew install libxrandr
+brew install libudev
+brew install freetype
+```
+
+---
 
 - Navigate to the `push_swap_visualizer` directory, create `build` directory, and navigate into the build directory:
 
