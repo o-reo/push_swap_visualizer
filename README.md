@@ -30,6 +30,13 @@ sudo apt-get install libudev-dev
 sudo apt-get install libfreetype-dev
 ```
 
+For Apple Silicon Macs it is recommended to install:
+
+```
+brew install sfml
+softwareupdate --install-rosetta
+```
+
 - Navigate to the `push_swap_visualizer` directory, create `build` directory, and navigate into the build directory:
 
 ```bash
