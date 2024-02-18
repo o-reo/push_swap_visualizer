@@ -20,6 +20,8 @@ std::list<int> SplitStringToInt(const std::string &s, const char delimitor) {
   std::string item;
   std::list<int> elems;
   while (std::getline(ss, item, delimitor)) {
+    if (item.empty())
+      continue;
     elems.push_back(std::stoi(item));
   }
   return elems;
