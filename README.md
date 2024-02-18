@@ -45,11 +45,16 @@ brew install cmake
 brew install gcc
 brew install llvm
 brew install mesa
-brew install libx11
-brew install libxrandr
-brew install libudev
+brew install xquartz
 brew install freetype
 ```
+> [!IMPORTANT]
+>  Please note that `libudev-dev` has no direct equivalent on macOS. Depending on your specific needs, you might be able to use other libraries or APIs available on macOS.
+> 
+> For example, `IOKit` is a macOS framework for handling hardware resources, which might be used as an alternative for some `libudev` functionalities.
+> However, the usage and capabilities will not be the same, and you'll need to adjust your code accordingly.
+>
+> Also, `libx11-dev` and `libxrandr-dev` are replaced with `xquartz` on macOS, which provides the X11 server for macOS. But again, the functionality might not be exactly the same as on Linux.
 
 ---
 
