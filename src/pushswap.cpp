@@ -9,13 +9,19 @@
 PushSwap::PushSwap() : path{"../../push_swap"} {}
 PushSwap::~PushSwap() {}
 
+struct closer {
+	int operator()(FILE *f) const {
+		return pclose(f);
+	}
+};
+
 void PushSwap::run(const std::string &numbers) {
   this->commands.clear();
   std::array<char, 128> buffer;
   std::string result;
   std::string command = this->path + " " + numbers;
-  std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"),
-                                                pclose);
+  std::unique_ptr<FILE, closer> pipe(popen(command.c_str(), "r"));
+                                                
 
   if (!pipe) {
     throw std::runtime_error("popen() failed!");
